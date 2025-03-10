@@ -1,9 +1,9 @@
 package br.com.fiap.task_manager_security.entity;
-
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -15,31 +15,26 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O título é obrigatório")
+    @NotBlank(message = "Título é obrigatório")
     private String title;
 
-    @NotBlank(message = "A descrição é obrigatória")
+    @NotBlank(message = "Descrição é obrigatória")
     private String description;
 
-    @NotNull(message = "A data de vencimento é obrigatória")
-    @Future(message = "A data de vencimento não pode ser anterior à data atual")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Data de vencimento é obrigatória")
+    @FutureOrPresent(message = "A data de vencimento não pode ser anterior à data atual")
     private LocalDate dueDate;
 
     @Enumerated(EnumType.STRING)
     private TaskStatus status = TaskStatus.PENDING;
 
     @Enumerated(EnumType.STRING)
-    private TaskPriority priority;
+    private TaskPriority priority = TaskPriority.MEDIUM;
 
-    @NotBlank(message = "O colaborador responsável é obrigatório")
-    private String assignedUsername;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assignee_id")
+    @NotNull(message = "Colaborador responsável é obrigatório")
+    private User assignee;
 
-    public enum TaskStatus {
-        PENDING, IN_PROGRESS, COMPLETED
-    }
-
-    public enum TaskPriority {
-        LOW, MEDIUM, HIGH
-    }
 }
+

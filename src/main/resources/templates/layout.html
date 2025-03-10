@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="layout(title, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Sistema de Gerenciamento de Tarefas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .sidebar {
+            height: 100vh;
+            background-color: #212529;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #343a40;
+        }
+        .sidebar a.active {
+            background-color: #0d6efd;
+        }
+        .content {
+            padding: 20px;
+        }
+        .task-card {
+            margin-bottom: 20px;
+        }
+        .priority-high {
+            border-left: 5px solid #dc3545;
+        }
+        .priority-medium {
+            border-left: 5px solid #ffc107;
+        }
+        .priority-low {
+            border-left: 5px solid #0dcaf0;
+        }
+        .status-pending {
+            background-color: #f8f9fa;
+        }
+        .status-in-progress {
+            background-color: #e2f0ff;
+        }
+        .status-completed {
+            background-color: #d1e7dd;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 d-none d-md-block sidebar p-0"
+             sec:authorize="isAuthenticated()">
+            <div class="d-flex flex-column">
+                <div class="text-center mb-4">
+                    <h5 class="text-light">Sistema de Tarefas</h5>
+                </div>
+
+                <a th:href="@{/home}" class="mb-2">
+                    <i class="bi bi-house-door"></i> Início
+                </a>
+
+                <div sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/users}" class="mb-2">
+                        <i class="bi bi-people"></i> Usuários
+                    </a>
+                    <a th:href="@{/register}" class="mb-2">
+                        <i class="bi bi-person-plus"></i> Novo Usuário
+                    </a>
+                    <a th:href="@{/reports}" class="mb-2">
+                        <i class="bi bi-graph-up"></i> Relatórios
+                    </a>
+                </div>
+
+                <div sec:authorize="hasRole('GERENTE')">
+                    <a th:href="@{/tasks}" class="mb-2">
+                        <i class="bi bi-list-task"></i> Tarefas
+                    </a>
+                    <a th:href="@{/tasks/new}" class="mb-2">
+                        <i class="bi bi-plus-circle"></i> Nova Tarefa
+                    </a>
+                    <a th:href="@{/reports}" class="mb-2">
+                        <i class="bi bi-graph-up"></i> Relatórios
+                    </a>
+                </div>
+
+                <div sec:authorize="hasRole('COLABORADOR')">
+                    <a th:href="@{/tasks}" class="mb-2">
+                        <i class="bi bi-list-task"></i> Minhas Tarefas
+                    </a>
+                </div>
+
+                <a th:href="@{/profile}" class="mb-2">
+                    <i class="bi bi-person-circle"></i> Meu Perfil
+                </a>
+
+                <div class="mt-auto">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="bi bi-box-arrow-right"></i> Sair
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-md-10 offset-md-2 content">
+            <!-- Alert messages -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <!-- Page content -->
+            <div th:replace="${content}">
+                Page content goes here
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
