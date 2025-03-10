@@ -55,7 +55,7 @@ public class AuthController {
         }
         userService.save(userDTO);
         redirectAttributes.addFlashAttribute("success", "Usuário cadastrado com sucesso");
-        return "redirect:/login";
+        return "redirect:/home";
     }
 
     @GetMapping("/access-denied")

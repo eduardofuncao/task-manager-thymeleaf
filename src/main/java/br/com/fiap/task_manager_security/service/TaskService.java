@@ -6,12 +6,15 @@ import br.com.fiap.task_manager_security.controller.dto.UserDTO;
 import br.com.fiap.task_manager_security.controller.mapper.TaskMapper;
 import br.com.fiap.task_manager_security.controller.mapper.UserMapper;
 import br.com.fiap.task_manager_security.entity.Task;
+import br.com.fiap.task_manager_security.entity.TaskStatus;
 import br.com.fiap.task_manager_security.entity.User;
 import br.com.fiap.task_manager_security.repository.TaskRepository;
 import br.com.fiap.task_manager_security.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,4 +71,6 @@ public class TaskService {
                 .map(taskMapper::toDTO)
                 .toList();
     }
+
+
 }

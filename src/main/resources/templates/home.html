@@ -17,6 +17,7 @@
 <body>
 <div th:fragment="content">
     <div class="container mt-4">
+        <div th:replace="fragments/header :: header"></div>
         <div class="row mb-4">
             <div class="col">
                 <h2>Bem-vindo, <span th:text="${user.name}"></span>!</h2>
@@ -30,9 +31,9 @@
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
                         <i class="bi bi-people fs-1 text-primary mb-3"></i>
-                        <h5 class="card-title">Gerenciar Usuários</h5>
-                        <p class="card-text">Cadastre, edite e gerencie os usuários do sistema.</p>
-                        <a th:href="@{/users}" class="btn btn-primary">Acessar</a>
+                        <h5 class="card-title">Cadastrar Usuários</h5>
+                        <p class="card-text">Cadastre usuário ao sistema</p>
+                        <a th:href="@{/register}" class="btn btn-primary">Acessar</a>
                     </div>
                 </div>
             </div>
