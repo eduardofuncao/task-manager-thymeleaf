@@ -68,10 +68,10 @@
                             <span th:if="${task.status.name() == 'DONE'}" class="badge bg-success">Concluída</span>
                         </td>
                         <td th:text="${#temporals.format(task.dueDate, 'dd/MM/yyyy')}"></td>
-                        <td th:text="${task.assignee.name}"></td>
+                        <td th:text="${task.assigneeId}"></td>
                         <td>
                             <!-- Status update dropdown for Colaborador -->
-                            <div th:if="${currentUser.role.name() == 'COLABORADOR' && task.assignee.id == currentUser.id}" class="dropdown d-inline me-2">
+                            <div th:if="${currentUser.role.name() == 'COLABORADOR' && task.assigneeId == currentUser.id}" class="dropdown d-inline me-2">
                                 <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                     Atualizar Status
                                 </button>

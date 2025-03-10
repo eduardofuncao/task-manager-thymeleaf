@@ -18,11 +18,13 @@ import java.util.stream.Collectors;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
     private final TaskMapper taskMapper;
     private final UserMapper userMapper;
 
-    TaskService(TaskRepository taskRepository, TaskMapper taskMapper, UserMapper userMapper) {
+    TaskService(TaskRepository taskRepository, TaskMapper taskMapper, UserMapper userMapper, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
         this.taskMapper = taskMapper;
         this.userMapper = userMapper;
     }
@@ -48,7 +50,11 @@ public class TaskService {
     }
 
     public TaskDTO save(TaskDTO taskDTO) {
-        Task savedTask = taskRepository.save(taskMapper.toEntity(taskDTO));
+        Task taskToSave = taskMapper.toEntity(taskDTO);
+        User foundUser = userRepository.findById(taskDTO.getAssigneeId()).orElseThrow(()-> new RuntimeException("Usuário designado não encontrado"));
+        taskToSave.setAssignee(foundUser);
+        Task savedTask = taskRepository.save(taskToSave);
+        savedTask.setAssignee(foundUser);
         taskDTO.setId(savedTask.getId());
         return taskDTO;
     }

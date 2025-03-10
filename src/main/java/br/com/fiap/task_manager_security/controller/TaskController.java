@@ -49,7 +49,7 @@ public class TaskController {
 
     @GetMapping("/new")
     public String newTaskForm(Model model) {
-        model.addAttribute("task", new Task());
+        model.addAttribute("task", new TaskDTO());
 
         List<UserDTO> collaborators = userService.getAll()
                 .stream()
@@ -80,6 +80,7 @@ public class TaskController {
             return "new-task";
         }
 
+        System.out.println(task);
         taskService.save(task);
         redirectAttributes.addFlashAttribute("success", "Tarefa criada com sucesso!");
         return "redirect:/tasks";
@@ -104,7 +105,7 @@ public class TaskController {
 
     @PostMapping("/update/{id}")
     public String updateTask(@PathVariable Long id,
-                             @Valid @ModelAttribute("task") Task task,
+                             @Valid @ModelAttribute("task") TaskDTO task,
                              BindingResult result,
                              Model model,
                              RedirectAttributes redirectAttributes) {
@@ -128,7 +129,7 @@ public class TaskController {
         existingTask.setDueDate(task.getDueDate());
         existingTask.setStatus(task.getStatus());
         existingTask.setPriority(task.getPriority());
-        existingTask.setAssigneeId(task.getAssignee().getId());
+        existingTask.setAssigneeId(task.getAssigneeId());
 
         taskService.save(existingTask);
         redirectAttributes.addFlashAttribute("success", "Tarefa atualizada com sucesso!");

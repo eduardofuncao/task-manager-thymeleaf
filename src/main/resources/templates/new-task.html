@@ -42,22 +42,22 @@
                             <select class="form-select" id="priority" th:field="*{priority}">
                                 <option th:each="priorityOpt : ${priorities}"
                                         th:value="${priorityOpt}"
-                                        th:text="${priorityOpt.name() == 'BAIXA' ? 'Baixa' :
-                                                    priorityOpt.name() == 'MEDIA' ? 'Média' : 'Alta'}">
+                                        th:text="${priorityOpt.name() == 'LOW' ? 'Baixa' :
+                                                    (priorityOpt.name() == 'MEDIUM' ? 'Média' : 'Alta')}">
                                 </option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="assignee" class="form-label">Colaborador Responsável</label>
-                            <select class="form-select" id="assignee" th:field="*{assignee}" required>
+                            <select class="form-select" id="assignee" th:field="*{assigneeId}" required>
                                 <option value="">Selecione um colaborador</option>
                                 <option th:each="collaborator : ${collaborators}"
                                         th:value="${collaborator.id}"
                                         th:text="${collaborator.name}">
                                 </option>
                             </select>
-                            <div class="text-danger" th:if="${#fields.hasErrors('assignee')}" th:errors="*{assignee}"></div>
+                            <div class="text-danger" th:if="${#fields.hasErrors('assigneeId')}" th:errors="*{assigneeId}"></div>
                         </div>
 
                         <div class="mb-3">
@@ -65,8 +65,8 @@
                             <select class="form-select" id="status" th:field="*{status}">
                                 <option th:each="statusOpt : ${statuses}"
                                         th:value="${statusOpt}"
-                                        th:text="${statusOpt.name() == 'PENDENTE' ? 'Pendente' :
-                                                    statusOpt.name() == 'EM_ANDAMENTO' ? 'Em Andamento' : 'Concluída'}">
+                                        th:text="${statusOpt.name() == 'PENDING' ? 'Pendente' :
+                                                    (statusOpt.name() == 'ONGOING' ? 'Em Andamento' : 'Concluída')}">
                                 </option>
                             </select>
                         </div>

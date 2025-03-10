@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/register").permitAll()
                         .requestMatchers( "/users", "/reports").hasRole("ADMIN")
                         .requestMatchers("/tasks/new", "/tasks/edit/**").hasRole("MANAGER")
-                        .requestMatchers("/tasks/**").hasAnyRole("MANAGER", "COLLABORATOR")
+                        .requestMatchers("/tasks/**", "/tasks").hasAnyRole("MANAGER", "COLLABORATOR")
                         .requestMatchers("/profile").authenticated()
                         .requestMatchers("/").authenticated()
                         .anyRequest().authenticated()
